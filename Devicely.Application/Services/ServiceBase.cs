@@ -1,9 +1,8 @@
-using Devicely.Database.Interfaces.v1;
-using Devicely.Database.v1;
+using Devicely.Database.Context;
 
 namespace Devicely.Application.Services;
 
-public class ServiceBase(UnitOfWorkContext unitOfWorkContext)
+public class ServiceBase(DevicelyDbContext context)
 {
-    internal readonly UnitOfWorkContext UnitOfWorkContext = unitOfWorkContext;
+    internal readonly DevicelyDbContext Context = context;
 }
