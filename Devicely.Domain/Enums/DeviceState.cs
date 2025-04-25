@@ -1,6 +1,7 @@
 namespace Devicely.Domain.Enums;
 
-public enum DeviceState {
+public enum DeviceState
+{
     Available = 1,
     InUse = 2,
     Inactive = 3

@@ -9,7 +9,7 @@ namespace Devicely.Application.Services;
 
 public class DeviceService(
     ILogger<DeviceService> logger,
-    DevicelyDbContext context) : ServiceBase(context), IDeviceService 
+    DevicelyDbContext context) : ServiceBase(context), IDeviceService
 {
     private readonly ILogger<DeviceService> logger = logger;
 
@@ -79,7 +79,7 @@ public class DeviceService(
 
             if (existingDevice == null) return null;
 
-            if (existingDevice.State == DeviceState.InUse 
+            if (existingDevice.State == DeviceState.InUse
                 && (!string.IsNullOrEmpty(request.Name) || !string.IsNullOrEmpty(request.Brand)))
                 throw new Exception("Device name and or brand can't be updated when in use.");
 
