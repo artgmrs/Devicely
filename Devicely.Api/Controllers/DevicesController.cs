@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Devicely.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/devices")]
     [ApiController]
     public class DevicesController(IDeviceService deviceService) : ControllerBase
     {
@@ -16,7 +16,9 @@ namespace Devicely.Api.Controllers
         {
             var devices = await _deviceService.GetAllDevices();
 
-            return Ok(devices.Select(device => device.ToDto()).ToList());
+            if (devices.Count == 0) return NoContent();
+
+            return Ok(devices.ToDtoList());
         }
     }
 }

@@ -2,15 +2,27 @@ using Devicely.Application.Interfaces;
 using Devicely.Database.Context;
 using Devicely.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Devicely.Application.Services;
 
-public class DeviceService(DevicelyDbContext context) : ServiceBase(context), IDeviceService 
+public class DeviceService(
+    ILogger<DeviceService> logger,
+    DevicelyDbContext context) : ServiceBase(context), IDeviceService 
 {
+    private readonly ILogger<DeviceService> logger = logger;
+
     public async Task<List<Device>> GetAllDevices()
     {
-        var result = await Context.Devices.ToListAsync();
-
-        return result;
+        try
+        {
+            return await Context.Devices.ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            var message = $"Error ocurred when querying all devices: {ex.Message}";
+            logger.LogError(message, ex);
+            throw new Exception(message, ex); // criar DeviceException
+        }
     }
 }

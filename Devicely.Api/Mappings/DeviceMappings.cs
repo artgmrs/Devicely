@@ -18,6 +18,12 @@ public static class DeviceMappings
         };
     }
 
+    // Converte uma lista de Device para uma lista de DeviceDto
+    public static List<DeviceDto> ToDtoList(this List<Device> devices)
+    {
+        return devices.Select(device => device.ToDto()).ToList();
+    }
+
     // Converte um DeviceDto para Device
     public static Device ToEntity(this DeviceDto deviceDto)
     {
@@ -29,5 +35,11 @@ public static class DeviceMappings
             State = deviceDto.State,
             CreatedAt = deviceDto.CreatedAt
         };
+    }
+
+    // Converte uma lista de DeviceDto para uma lista de Device
+    public static List<Device> ToEntityList(this List<DeviceDto> devices)
+    {
+        return devices.Select(device => device.ToEntity()).ToList();
     }
 }
