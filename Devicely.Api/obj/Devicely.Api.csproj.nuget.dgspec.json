@@ -1,0 +1,303 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/artgmrs/dev/Devicely/Devicely.Api/Devicely.Api.csproj": {}
+  },
+  "projects": {
+    "/home/artgmrs/dev/Devicely/Devicely.Api/Devicely.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/artgmrs/dev/Devicely/Devicely.Api/Devicely.Api.csproj",
+        "projectName": "Devicely.Api",
+        "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Api/Devicely.Api.csproj",
+        "packagesPath": "/home/artgmrs/.nuget/packages/",
+        "outputPath": "/home/artgmrs/dev/Devicely/Devicely.Api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/artgmrs/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/artgmrs/dev/Devicely/Devicely.Application/Devicely.Application.csproj": {
+                "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Application/Devicely.Application.csproj"
+              },
+              "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj": {
+                "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/artgmrs/dev/Devicely/Devicely.Application/Devicely.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/artgmrs/dev/Devicely/Devicely.Application/Devicely.Application.csproj",
+        "projectName": "Devicely.Application",
+        "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Application/Devicely.Application.csproj",
+        "packagesPath": "/home/artgmrs/.nuget/packages/",
+        "outputPath": "/home/artgmrs/dev/Devicely/Devicely.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/artgmrs/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj": {
+                "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj"
+              },
+              "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj": {
+                "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj",
+        "projectName": "Devicely.Database",
+        "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Database/Devicely.Database.csproj",
+        "packagesPath": "/home/artgmrs/.nuget/packages/",
+        "outputPath": "/home/artgmrs/dev/Devicely/Devicely.Database/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/artgmrs/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj": {
+                "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj",
+        "projectName": "Devicely.Domain",
+        "projectPath": "/home/artgmrs/dev/Devicely/Devicely.Domain/Devicely.Domain.csproj",
+        "packagesPath": "/home/artgmrs/.nuget/packages/",
+        "outputPath": "/home/artgmrs/dev/Devicely/Devicely.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/artgmrs/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "/usr/lib/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.100"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.105/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

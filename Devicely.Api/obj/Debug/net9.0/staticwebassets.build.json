@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "n7rMazudM9RDwu5qOi/O925wXzyOlF9uCqg889sRhiU=",
+  "Source": "Devicely.Api",
+  "BasePath": "_content/Devicely.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
