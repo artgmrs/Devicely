@@ -5,7 +5,7 @@ namespace Devicely.Api.Mappings;
 
 public static class DeviceMappings
 {
-    // Converte um Device para DeviceDto
+    // Converts a Device to DeviceDto
     public static DeviceDto ToDto(this Device device)
     {
         return new DeviceDto
@@ -18,13 +18,13 @@ public static class DeviceMappings
         };
     }
 
-    // Converte uma lista de Device para uma lista de DeviceDto
+    // Converts a list of Device to a list of DeviceDto
     public static List<DeviceDto> ToDtoList(this List<Device> devices)
     {
         return devices.Select(device => device.ToDto()).ToList();
     }
 
-    // Converte um DeviceDto para Device
+    // Converts a DeviceDto to Device
     public static Device ToEntity(this DeviceDto deviceDto)
     {
         return new Device
@@ -37,9 +37,39 @@ public static class DeviceMappings
         };
     }
 
-    // Converte uma lista de DeviceDto para uma lista de Device
+    // Converts a list of DeviceDto to a list of Device
     public static List<Device> ToEntityList(this List<DeviceDto> devices)
     {
         return devices.Select(device => device.ToEntity()).ToList();
+    }
+
+    // Converts a CreateDeviceDto to Device
+    public static Device ToEntity(this CreateDeviceDto createDeviceDto)
+    {
+        return new Device
+        {
+            Id = Guid.NewGuid(), // Generates a new ID for the device
+            Name = createDeviceDto.Name,
+            Brand = createDeviceDto.Brand,
+            State = createDeviceDto.State,
+            CreatedAt = DateTime.UtcNow // Sets the creation date to the current moment
+        };
+    }
+
+    // Converts an EditDeviceDto to Device
+    public static Device ToEntity(this EditDeviceDto editDeviceDto)
+    {
+        var device = new Device()
+        {
+            Name = editDeviceDto.Name,
+            Brand = editDeviceDto.Brand,
+        };
+
+        if (editDeviceDto.State.HasValue)
+        {
+            device.State = editDeviceDto.State.Value;
+        }
+
+        return device;
     }
 }

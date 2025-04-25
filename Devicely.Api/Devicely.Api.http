@@ -1,6 +1,0 @@
-@Devicely.Api_HostAddress = http://localhost:5098
-
-GET http://localhost:5098/weatherforecast/
-Accept: application/json
-
-###

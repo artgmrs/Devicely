@@ -1,12 +1,15 @@
+using System.ComponentModel.DataAnnotations;
 using Devicely.Domain.Enums;
 
-namespace Devicely.Database.Entities;
+namespace Devicely.Domain.Dtos;
 
-public class Device
+public class CreateDeviceDto
 {
-    public Guid Id { get; set; }
+
+    [Required]
     public string Name { get; set; } = string.Empty;
+    [Required]
     public string Brand { get; set; } = string.Empty;
+    [Required]
     public DeviceState State { get; set; }
-    public DateTime CreatedAt { get; set; }
 }
