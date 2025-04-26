@@ -3,6 +3,7 @@ using System;
 using Devicely.Database.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Devicely.Database.Migrations
 {
     [DbContext(typeof(DevicelyDbContext))]
-    partial class DevicelyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250426133926_UpdatedDeviceEntity")]
+    partial class UpdatedDeviceEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

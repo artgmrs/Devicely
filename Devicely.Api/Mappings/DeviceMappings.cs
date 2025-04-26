@@ -14,7 +14,9 @@ public static class DeviceMappings
             Name = device.Name,
             Brand = device.Brand,
             State = device.State,
-            CreatedAt = device.CreatedAt
+            CreatedAt = device.CreatedAt,
+            UpdatedAt = device.UpdatedAt,
+            IsDeleted = device.IsDeleted
         };
     }
 
@@ -33,7 +35,9 @@ public static class DeviceMappings
             Name = deviceDto.Name,
             Brand = deviceDto.Brand,
             State = deviceDto.State,
-            CreatedAt = deviceDto.CreatedAt
+            CreatedAt = deviceDto.CreatedAt,
+            UpdatedAt = deviceDto.UpdatedAt,
+            IsDeleted = deviceDto.IsDeleted
         };
     }
 
@@ -48,11 +52,9 @@ public static class DeviceMappings
     {
         return new Device
         {
-            Id = Guid.NewGuid(), // Generates a new ID for the device
             Name = createDeviceDto.Name,
             Brand = createDeviceDto.Brand,
             State = createDeviceDto.State,
-            CreatedAt = DateTime.UtcNow // Sets the creation date to the current moment
         };
     }
 
@@ -63,6 +65,7 @@ public static class DeviceMappings
         {
             Name = editDeviceDto.Name,
             Brand = editDeviceDto.Brand,
+            IsDeleted = editDeviceDto.IsDeleted,
         };
 
         if (editDeviceDto.State.HasValue)

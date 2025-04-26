@@ -1,13 +1,4 @@
-﻿#services:
-#  devicely.api:
-#    image: devicely.api
-#    build:
-#      context: .
-#      dockerfile: Devicely.Api/Dockerfile
-#
-#version: '3.8'
-
-services:
+﻿services:
   db:
     image: postgres:15
     container_name: devices_db
@@ -19,7 +10,6 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - devicesnet
 

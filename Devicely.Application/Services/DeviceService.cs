@@ -3,104 +3,85 @@ using Devicely.Database.Context;
 using Devicely.Database.Entities;
 using Devicely.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace Devicely.Application.Services;
 
-public class DeviceService(
-    ILogger<DeviceService> logger,
-    DevicelyDbContext context) : ServiceBase(context), IDeviceService
+public class DeviceService(DevicelyDbContext context) : ServiceBase(context), IDeviceService
 {
-    private readonly ILogger<DeviceService> logger = logger;
-
     public List<Device> GetAllDevices(string? brand, DeviceState? state, int pageSize, int pageNumber)
     {
-        try
-        {
-            var query = Context.Devices.AsQueryable();
+        var query = Context.Devices.AsQueryable();
 
-            if (!string.IsNullOrEmpty(brand))
-                query = query.Where(d => d.Brand == brand);
+        if (!string.IsNullOrEmpty(brand))
+            query = query.Where(d => d.Brand == brand);
 
-            if (state.HasValue) // confirmar que funciona
-                query = query.Where(d => d.State == state);
+        if (state.HasValue)
+            query = query.Where(d => d.State == state);
 
-            return query.AsNoTracking()
-                .OrderBy(d => d.CreatedAt) //@todo - trocar pra id 
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-        }
-        catch (Exception ex)
-        {
-            var message = $"Error ocurred when querying all devices: {ex.Message}";
-            logger.LogError(message, ex);
-            throw new Exception(message, ex);
-        }
+        return query.AsNoTracking()
+            .OrderBy(d => d.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .Where(d => !d.IsDeleted)
+            .ToList();
     }
 
     public async Task<Device> CreateDeviceAsync(Device device)
     {
-        try
-        {
-            device.CreatedAt = DateTime.UtcNow;
-            await Context.Devices.AddAsync(device);
-            await Context.SaveChangesAsync();
+        var date = DateTime.UtcNow;
+        device.CreatedAt = date;
+        device.UpdatedAt = date;
 
-            return device;
-        }
-        catch (Exception ex)
-        {
-            var message = $"Error occurred when creating a device: {ex.Message}";
-            logger.LogError(message, ex);
-            throw new Exception(message, ex);
-        }
+        await Context.Devices.AddAsync(device);
+        await Context.SaveChangesAsync();
+
+        return device;
     }
 
-    public async Task<Device?> GetDeviceByIdAsync(Guid id)
+    public async Task<Device?> GetDeviceByIdAsync(int id) => await Context.Devices.FindAsync(id);
+
+    public async Task<Device?> UpdateDeviceAsync(int id, Device request, bool updateState)
     {
-        try
-        {
-            return await Context.Devices.FindAsync(id);
-        }
-        catch (Exception ex)
-        {
-            var message = $"Error occurred when retrieving device by ID: {ex.Message}";
-            logger.LogError(message, ex);
-            throw new Exception(message, ex);
-        }
+        var existingDevice = await Context.Devices.FindAsync(id);
+
+        if (existingDevice == null) return null;
+
+        ValidateNameBrandUpdate(existingDevice.State, request.Name, request.Brand);
+
+        existingDevice.Name = !string.IsNullOrEmpty(request.Name) ? request.Name : existingDevice.Name;
+        existingDevice.Brand = !string.IsNullOrEmpty(request.Brand) ? request.Brand : existingDevice.Brand;
+
+        if (updateState)
+            existingDevice.State = request.State;
+
+        if (request.IsDeleted != existingDevice.IsDeleted)
+            existingDevice.IsDeleted = request.IsDeleted;
+
+        if (!Context.Entry(existingDevice).Properties.Any(p => p.IsModified)) return existingDevice;
+
+        existingDevice.UpdatedAt = DateTime.UtcNow;
+
+        await Context.SaveChangesAsync();
+
+        return existingDevice;
     }
 
-    public async Task<Device?> UpdateDeviceAsync(Guid id, Device request, bool updateState)
+    public async Task<Device?> DeleteDeviceByIdAsync(int id)
     {
-        try
-        {
-            var existingDevice = await Context.Devices.FindAsync(id);
+        var existingDevice = Context.Devices.Where(d => d.Id == id && !d.IsDeleted).FirstOrDefault();
 
-            if (existingDevice == null) return null;
+        if (existingDevice == null) return null;
 
-            if (existingDevice.State == DeviceState.InUse
-                && (!string.IsNullOrEmpty(request.Name) || !string.IsNullOrEmpty(request.Brand)))
-                throw new Exception("Device name and or brand can't be updated when in use.");
+        existingDevice.IsDeleted = true;
+        await Context.SaveChangesAsync();
 
-            if (!string.IsNullOrEmpty(request.Name))
-                existingDevice.Name = request.Name;
+        return existingDevice;
+    }
 
-            if (!string.IsNullOrEmpty(request.Brand))
-                existingDevice.Brand = request.Brand;
-
-            if (updateState)
-                existingDevice.State = request.State;
-
-            await Context.SaveChangesAsync();
-
-            return existingDevice;
-        }
-        catch (Exception ex)
-        {
-            var message = $"Error occurred when updating device: {ex.Message}";
-            logger.LogError(message, ex);
-            throw new Exception(message, ex);
-        }
+    // Can't update name or brand when state is InUse
+    private static void ValidateNameBrandUpdate(DeviceState state, string name, string brand)
+    {
+        if (state == DeviceState.InUse && (!string.IsNullOrEmpty(name) || !string.IsNullOrEmpty(brand)))
+            throw new Exception("Device name and or brand can't be updated when in device is in use.");
     }
 }

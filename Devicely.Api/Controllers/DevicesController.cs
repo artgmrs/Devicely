@@ -9,9 +9,12 @@ namespace Devicely.Api.Controllers
 {
     [Route("api/devices")]
     [ApiController]
-    public class DevicesController(IDeviceService deviceService) : ControllerBase
+    public class DevicesController(
+        IDeviceService deviceService,
+        ILogger<DevicesController> logger) : ControllerBase
     {
         private readonly IDeviceService _deviceService = deviceService;
+        private readonly ILogger<DevicesController> _logger = logger;
 
         /// <summary>
         /// Get devices with filter and pagination (optionals)
@@ -43,12 +46,12 @@ namespace Devicely.Api.Controllers
         /// <summary>
         /// Get a device by its ID
         /// </summary>
-        /// <param name="id">Device ID (GUID)</param>
+        /// <param name="id">Device ID (int)</param>
         /// <response code="200">Successfully retrieved the device</response>
         /// <response code="204">Device not found</response>
         /// <response code="500">Internal Server Error</response>
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<DeviceDto>> GetDeviceById([Required] Guid id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<DeviceDto>> GetDeviceById([Required] int id)
         {
             try
             {
@@ -89,14 +92,14 @@ namespace Devicely.Api.Controllers
         /// <summary>
         /// Update an existing device
         /// </summary>
-        /// <param name="id">Device ID (GUID)</param>
+        /// <param name="id">Device ID (int)</param>
         /// <param name="editDeviceDto">Updated device data</param>
         /// <response code="200">Device successfully updated</response>
         /// <response code="204">Device not found</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="500">Internal Server Error</response>
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<DeviceDto>> UpdateDevice([Required] Guid id, [FromBody] EditDeviceDto editDeviceDto)
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<DeviceDto>> UpdateDevice([Required] int id, [FromBody] EditDeviceDto editDeviceDto)
         {
             try
             {
@@ -105,6 +108,31 @@ namespace Devicely.Api.Controllers
                 if (updatedDevice == null) return NoContent();
 
                 return Ok(updatedDevice.ToDto());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Delete a device by its ID
+        /// </summary>
+        /// <param name="id">Device ID (int)</param>
+        /// <response code="200">Device successfully deleted</response>
+        /// <response code="404">Device not found</response>
+        /// <response code="500">Internal Server Error</response>
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteDevice([Required] int id)
+        {
+            try
+            {
+                var deletedDevice = await _deviceService.DeleteDeviceByIdAsync(id);
+
+                if (deletedDevice == null) return NotFound();
+
+                return Ok();
             }
             catch (Exception ex)
             {
