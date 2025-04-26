@@ -68,13 +68,25 @@ namespace Devicely.Api.Controllers
         }
 
         /// <summary>
-        /// Create a new device
+        /// Create a new device 
         /// </summary>
         /// <param name="createDeviceDto">Device data</param>
+        /// <remarks>
+        /// Example request:
+        /// 
+        ///     POST /api/devices
+        ///     {
+        ///         "name": "Example Device",
+        ///         "brand": "Example Brand",
+        ///         "state": 1 // Valid values for state are: 1 (Available), 2 (InUse), and 3 (Inactive)
+        ///     }
+        /// 
+        /// </remarks>
         /// <response code="201">Device successfully created</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPost]
+        [Consumes("application/json")]
         public async Task<ActionResult<DeviceDto>> CreateDevice([FromBody] CreateDeviceDto createDeviceDto)
         {
             try
