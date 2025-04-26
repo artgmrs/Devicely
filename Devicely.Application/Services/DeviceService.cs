@@ -31,6 +31,7 @@ public class DeviceService(DevicelyDbContext context) : ServiceBase(context), ID
         var date = DateTime.UtcNow;
         device.CreatedAt = date;
         device.UpdatedAt = date;
+        device.IsDeleted = false;
 
         await Context.Devices.AddAsync(device);
         await Context.SaveChangesAsync();
