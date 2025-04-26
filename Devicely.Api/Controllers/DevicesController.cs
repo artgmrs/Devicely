@@ -29,18 +29,11 @@ namespace Devicely.Api.Controllers
         [HttpGet]
         public ActionResult<List<DeviceDto>> GetAllDevices([FromQuery] string? brand, [FromQuery] DeviceState? state, [FromQuery] PaginationDto paginationDto)
         {
-            try
-            {
-                var devices = _deviceService.GetAllDevices(brand, state, paginationDto.PageSize, paginationDto.PageNumber);
+            var devices = _deviceService.GetAllDevices(brand, state, paginationDto.PageSize, paginationDto.PageNumber);
 
-                if (devices.Count == 0) return NoContent();
+            if (devices.Count == 0) return NoContent();
 
-                return Ok(devices.ToDtoList());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
+            return Ok(devices.ToDtoList());
         }
 
         /// <summary>
@@ -53,18 +46,11 @@ namespace Devicely.Api.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<DeviceDto>> GetDeviceById([Required] int id)
         {
-            try
-            {
-                var device = await _deviceService.GetDeviceByIdAsync(id);
+            var device = await _deviceService.GetDeviceByIdAsync(id);
 
-                if (device == null) return NoContent();
+            if (device == null) return NoContent();
 
-                return Ok(device.ToDto());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
+            return Ok(device.ToDto());
         }
 
         /// <summary>
@@ -89,16 +75,9 @@ namespace Devicely.Api.Controllers
         [Consumes("application/json")]
         public async Task<ActionResult<DeviceDto>> CreateDevice([FromBody] CreateDeviceDto createDeviceDto)
         {
-            try
-            {
-                var createdDevice = await _deviceService.CreateDeviceAsync(createDeviceDto.ToEntity());
+            var createdDevice = await _deviceService.CreateDeviceAsync(createDeviceDto.ToEntity());
 
-                return CreatedAtAction(nameof(GetDeviceById), new { id = createdDevice.Id }, createdDevice.ToDto());
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
+            return CreatedAtAction(nameof(GetDeviceById), new { id = createdDevice.Id }, createdDevice.ToDto());
         }
 
         /// <summary>
@@ -113,19 +92,11 @@ namespace Devicely.Api.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<DeviceDto>> UpdateDevice([Required] int id, [FromBody] EditDeviceDto editDeviceDto)
         {
-            try
-            {
-                var updatedDevice = await _deviceService.UpdateDeviceAsync(id, editDeviceDto.ToEntity(), editDeviceDto.State.HasValue);
+            var updatedDevice = await _deviceService.UpdateDeviceAsync(id, editDeviceDto.ToEntity(), editDeviceDto.State.HasValue);
 
-                if (updatedDevice == null) return NoContent();
+            if (updatedDevice == null) return NoContent();
 
-                return Ok(updatedDevice.ToDto());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message, ex);
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
+            return Ok(updatedDevice.ToDto());
         }
 
         /// <summary>
@@ -138,18 +109,11 @@ namespace Devicely.Api.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteDevice([Required] int id)
         {
-            try
-            {
-                var deletedDevice = await _deviceService.DeleteDeviceByIdAsync(id);
+            var deletedDevice = await _deviceService.DeleteDeviceByIdAsync(id);
 
-                if (deletedDevice == null) return NotFound();
+            if (deletedDevice == null) return NotFound();
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
-            }
+            return Ok();
         }
     }
 }

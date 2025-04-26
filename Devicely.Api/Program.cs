@@ -1,6 +1,7 @@
 using Devicely.Database;
 using Devicely.Application;
 using Microsoft.OpenApi.Models;
+using Devicely.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,9 @@ var app = builder.Build();
 
 // Apply migrations automatically
 app.Services.ApplyMigrations();
+
+// Add exception handling middleware
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure swagger only for Development or Staging environments
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
