@@ -12,4 +12,14 @@ public static class DevicelyDatabaseDependency
         services.AddDbContext<DevicelyDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
     }
+
+    public static void ApplyMigrations(this IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<DevicelyDbContext>();
+
+        Console.WriteLine("Applying migrations...");
+        dbContext.Database.Migrate();
+        Console.WriteLine("Migrations applied successfully.");
+    }
 }

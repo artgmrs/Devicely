@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen(options =>
         Contact = new OpenApiContact
         {
             Name = "Arthur Miranda",
-            Email = "artgmrs@outlook.com",
+            Email = "arthurdonds@gmail.com",
             Url = new Uri("https://artgmrs-card.vercel.app/"),
         },
     });
@@ -41,9 +41,15 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Configure swagger
-app.UseSwagger();
-app.UseSwaggerUI();
+// Apply migrations automatically
+app.Services.ApplyMigrations();
+
+// Configure swagger only for Development or Staging environments
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 app.MapControllers();
