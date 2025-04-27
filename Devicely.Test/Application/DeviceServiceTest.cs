@@ -61,6 +61,7 @@ public class DeviceServiceTest
     [Theory, AutoDomainData]
     public async Task CreateDeviceAsync_ShouldCreateDeviceAsync(DeviceService sut, Device device)
     {
+        device.Id = 0;
         var result = await sut.CreateDeviceAsync(device);
 
         // Assert
@@ -86,9 +87,9 @@ public class DeviceServiceTest
     }
 
     [Theory, AutoDomainData]
-    public async Task GetDeviceByIdAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut, DevicelyDbContext context)
+    public async Task GetDeviceByIdAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut)
     {
-        var result = await sut.GetDeviceByIdAsync(context.Devices.Count() + 1);
+        var result = await sut.GetDeviceByIdAsync(-1);
 
         Assert.Null(result);
     }
@@ -130,9 +131,9 @@ public class DeviceServiceTest
     }
 
     [Theory, AutoDomainData]
-    public async Task UpdateDeviceAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut, Device updatedDevice, DevicelyDbContext context)
+    public async Task UpdateDeviceAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut, Device updatedDevice)
     {
-        var result = await sut.UpdateDeviceAsync(context.Devices.Count() + 1, updatedDevice, true);
+        var result = await sut.UpdateDeviceAsync(-1, updatedDevice, true);
 
         Assert.Null(result);
     }
