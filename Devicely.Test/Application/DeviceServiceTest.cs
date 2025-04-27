@@ -13,7 +13,7 @@ public class DeviceServiceTest
     public void GetAllDevices_ShouldReturnAllDevices(DeviceService sut)
     {
         var result = sut.GetAllDevices(brand: null, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
-        
+
         Assert.NotNull(result);
         Assert.All(result, device => Assert.True(!device.IsDeleted));
     }

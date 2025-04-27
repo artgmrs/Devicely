@@ -14,7 +14,7 @@ public class AutoDomainDataAttribute : AutoDataAttribute
     : base(() =>
     {
         var fixture = new Fixture().Customize(new AutoMoqCustomization());
-        
+
         // Configure EF InMemoryDatabase to use in tests
         var options = new DbContextOptionsBuilder<DevicelyDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
@@ -39,12 +39,12 @@ public class AutoDomainDataAttribute : AutoDataAttribute
                 new Device { Id = 10, Name = "Device 10", Brand = "Brand A", State = DeviceState.Available, IsDeleted = false }
             });
         }
-        
+
         context.SaveChanges();
 
         fixture.Inject(context);
-        
+
         return fixture;
     })
-    {}
+    { }
 }
