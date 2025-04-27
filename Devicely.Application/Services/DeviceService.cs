@@ -77,6 +77,8 @@ public class DeviceService(DevicelyDbContext context) : ServiceBase(context), ID
 
         if (existingDevice == null) return null;
 
+        if (existingDevice.State == DeviceState.InUse) throw new Exception($"Device Id '{id}' is currently In Use. In Use devices can't be deleted.");
+
         existingDevice.IsDeleted = true;
         await Context.SaveChangesAsync();
 

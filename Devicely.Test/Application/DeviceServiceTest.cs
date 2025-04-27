@@ -167,6 +167,7 @@ public class DeviceServiceTest
     {
         device.IsDeleted = false;
         context.Devices.Add(device);
+        device.Id = 0;
         await context.SaveChangesAsync();
 
         var result = await sut.DeleteDeviceByIdAsync(device.Id);
@@ -176,7 +177,7 @@ public class DeviceServiceTest
     }
 
     [Theory, AutoDomainData]
-    public async Task DeleteDeviceByIdAsync_ShouldReturnNull_DeviceDeletedOrNotFoundAsync(DeviceService sut, DevicelyDbContext context)
+    public async Task DeleteDeviceByIdAsync_ShouldReturnNull_DeviceAlreadyDeletedOrNotFoundAsync(DeviceService sut, DevicelyDbContext context)
     {
         var existingDevice = context.Devices.Where(d => d.IsDeleted).First();
 
@@ -186,10 +187,22 @@ public class DeviceServiceTest
     }
 
     [Theory, AutoDomainData]
-    public async Task DeleteDeviceByIdAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut, DevicelyDbContext context)
+    public async Task DeleteDeviceByIdAsync_ShouldReturnNull_WhenDeviceDoesNotExistAsync(DeviceService sut)
     {
-        var result = await sut.DeleteDeviceByIdAsync(context.Devices.Count() + 1);
+        var result = await sut.DeleteDeviceByIdAsync(199);
 
         Assert.Null(result);
+    }
+
+    [Theory, AutoDomainData]
+    public async Task DeleteDeviceByIdAsync_ShouldThrowException_WhenDeviceIsInUseAsync(DeviceService sut, DevicelyDbContext context, Device device)
+    {
+        device.State = DeviceState.InUse;
+        device.IsDeleted = false;
+        device.Id = 0;
+        context.Devices.Add(device);
+        await context.SaveChangesAsync();
+
+        await Assert.ThrowsAsync<Exception>(async () => await sut.DeleteDeviceByIdAsync(device.Id));
     }
 }
