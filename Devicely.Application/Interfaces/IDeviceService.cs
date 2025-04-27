@@ -5,7 +5,7 @@ namespace Devicely.Application.Interfaces;
 
 public interface IDeviceService
 {
-    List<Device> GetAllDevices(string? brand, DeviceState? state, int pageSize, int pageNumber);
+    (List<Device> result, int totalCount) GetAllDevices(string? brand, DeviceState? state, int pageSize, int pageNumber);
     Task<Device?> GetDeviceByIdAsync(int id);
     Task<Device?> DeleteDeviceByIdAsync(int id);
     Task<Device> CreateDeviceAsync(Device device);

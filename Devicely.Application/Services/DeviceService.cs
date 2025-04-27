@@ -8,7 +8,7 @@ namespace Devicely.Application.Services;
 
 public class DeviceService(DevicelyDbContext context) : ServiceBase(context), IDeviceService
 {
-    public List<Device> GetAllDevices(string? brand, DeviceState? state, int pageSize, int pageNumber)
+    public (List<Device> result, int totalCount) GetAllDevices(string? brand, DeviceState? state, int pageSize, int pageNumber)
     {
         var query = Context.Devices.AsQueryable();
 
@@ -18,12 +18,16 @@ public class DeviceService(DevicelyDbContext context) : ServiceBase(context), ID
         if (state.HasValue)
             query = query.Where(d => d.State == state);
 
-        return query.AsNoTracking()
+        query = query.Where(d => !d.IsDeleted);
+        var totalCount = query.Count();
+
+        var result = query.AsNoTracking()
             .OrderBy(d => d.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Where(d => !d.IsDeleted)
             .ToList();
+
+        return (result, totalCount);
     }
 
     public async Task<Device> CreateDeviceAsync(Device device)

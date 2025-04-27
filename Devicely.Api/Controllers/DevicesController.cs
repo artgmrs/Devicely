@@ -27,13 +27,11 @@ namespace Devicely.Api.Controllers
         /// <response code="400">Invalid Request Data</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
-        public ActionResult<List<DeviceDto>> GetAllDevices([FromQuery] string? brand, [FromQuery] DeviceState? state, [FromQuery] PaginationDto paginationDto)
+        public ActionResult<PaginatedResultDto<DeviceDto>> GetAllDevices([FromQuery] string? brand, [FromQuery] DeviceState? state, [FromQuery] PaginationDto paginationDto)
         {
-            var devices = _deviceService.GetAllDevices(brand, state, paginationDto.PageSize, paginationDto.PageNumber);
+            var (devices, totalCount) = _deviceService.GetAllDevices(brand, state, paginationDto.PageSize, paginationDto.PageNumber);
 
-            if (devices.Count == 0) return NoContent();
-
-            return Ok(devices.ToDtoList());
+            return Ok(devices.ToPaginatedResultDto(totalCount, paginationDto.PageNumber, paginationDto.PageSize));
         }
 
         /// <summary>
@@ -48,7 +46,7 @@ namespace Devicely.Api.Controllers
         {
             var device = await _deviceService.GetDeviceByIdAsync(id);
 
-            if (device == null) return NoContent();
+            if (device == null) return NotFound();
 
             return Ok(device.ToDto());
         }
@@ -94,7 +92,7 @@ namespace Devicely.Api.Controllers
         {
             var updatedDevice = await _deviceService.UpdateDeviceAsync(id, editDeviceDto.ToEntity(), editDeviceDto.State.HasValue);
 
-            if (updatedDevice == null) return NoContent();
+            if (updatedDevice == null) return NotFound();
 
             return Ok(updatedDevice.ToDto());
         }
@@ -113,7 +111,7 @@ namespace Devicely.Api.Controllers
 
             if (deletedDevice == null) return NotFound();
 
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -20,6 +20,18 @@ public static class DeviceMappings
         };
     }
 
+    // Converts a Device to ToPaginatedResultDto
+    public static PaginatedResultDto<Device> ToPaginatedResultDto(this List<Device> result, int totalCount, int pageNumber, int pageSize)
+    {
+        return new PaginatedResultDto<Device>
+        {
+            Items = result,
+            TotalCount = totalCount,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
+    }
+
     // Converts a list of Device to a list of DeviceDto
     public static List<DeviceDto> ToDtoList(this List<Device> devices)
     {

@@ -14,7 +14,7 @@ Devicely/
 ├── Devicely.Application     # Application layer (Services, Interfaces)
 ├── Devicely.Database        # Database layer (DbContext, Entities, Migrations)
 ├── Devicely.Domain          # Domain layer (DTOs, Enums, Constants)
-├── Devicely.Test            # Automated tests (unit/integration)
+├── Devicely.Test            # Automated tests (unit)
 ├── compose.yaml             # Docker Compose configuration
 └── readme.md                # Project documentation
 ```
@@ -28,6 +28,26 @@ Devicely/
 - [Swashbuckle (Swagger)](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 - [xUnit](https://xunit.net/)
 - [AutoFixture](https://github.com/AutoFixture/AutoFixture)
+
+## Expected HTTP Status Codes
+
+- **GET /api/devices**  
+  - `200 OK` with a paginated list of devices (even if empty).
+- **GET /api/devices/{id}**  
+  - `200 OK` with the device if found.
+  - `404 Not Found` if the device does not exist.
+- **POST /api/devices**  
+  - `201 Created` with the created device and its location.
+  - `400 Bad Request` if the request data is invalid.
+- **PUT /api/devices/{id}**  
+  - `200 OK` with the updated device if successful.
+  - `404 Not Found` if the device does not exist.
+  - `400 Bad Request` if the request data is invalid.
+- **DELETE /api/devices/{id}**  
+  - `204 No Content` if the device was deleted.
+  - `404 Not Found` if the device does not exist.
+- **GLOBAL**
+  - `500 Internal Server Error` if any error occurred (handled by middleware).
 
 ## How to Run
 
@@ -53,7 +73,7 @@ Devicely/
 4. **Access Swagger UI:**  
    http://localhost:5098/swagger (or the port configured in `launchSettings.json`).
 
-## Running with Docker
+### Running with Docker
 
 1. **Build and Start All Services**
    ```bash
@@ -71,6 +91,20 @@ Devicely/
     docker-compose build --no-cache
     docker-compose up
     ```
+
+### Migrations
+
+#### Add migration
+1.Run command in root folder
+```
+dotnet ef migrations add InitialMigration --project Devicely.Database --startup-project Devicely.Api
+```
+
+#### Apply migration
+1.Run command in root folder
+```
+dotnet ef database update --project Devicely.Database --startup-project Devicely.Api
+```
 
 ## Testing
 
@@ -149,6 +183,7 @@ dotnet test
 - Add authentication and authorization.
 - In production, remove sensitive variables such as connection strings from the repository and move them to environment variables managed by your CI/CD provider.
 - If more complex queries are needed, consider a hybrid approach with Entity Framework and Dapper, or introduce a repository layer.
+- Create new table to store the device states and add it as FK at Device's table.
 - Add an AppService in the API layer to act as an interface between the Controller and Service layers.
 - Add versioning to the API (e.g., v1 folders).
 - Improve error handling with custom exceptions and validations (possibly with FluentValidation).

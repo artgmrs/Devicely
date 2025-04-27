@@ -12,7 +12,7 @@ public class DeviceServiceTest
     [Theory, AutoDomainData]
     public void GetAllDevices_ShouldReturnAllDevices(DeviceService sut)
     {
-        var result = sut.GetAllDevices(brand: null, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
+        var (result, totalCount) = sut.GetAllDevices(brand: null, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
 
         Assert.NotNull(result);
         Assert.All(result, device => Assert.True(!device.IsDeleted));
@@ -23,7 +23,7 @@ public class DeviceServiceTest
     {
         var brand = "Brand A";
 
-        var result = sut.GetAllDevices(brand: brand, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
+        var (result, totalCount) = sut.GetAllDevices(brand: brand, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
 
         Assert.NotNull(result);
         Assert.All(result, device => Assert.Equal(brand, device.Brand));
@@ -34,7 +34,7 @@ public class DeviceServiceTest
     {
         var state = DeviceState.Available;
 
-        var result = sut.GetAllDevices(brand: null, state: state, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
+        var (result, totalCount) = sut.GetAllDevices(brand: null, state: state, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
 
         Assert.NotNull(result);
         Assert.All(result, device => Assert.Equal(state, device.State));
@@ -43,7 +43,7 @@ public class DeviceServiceTest
     [Theory, AutoDomainData]
     public void GetAllDevices_Filter_WhenNoDevicesMatch(DeviceService sut)
     {
-        var result = sut.GetAllDevices("NonExistentBrand", null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
+        var (result, _) = sut.GetAllDevices("NonExistentBrand", null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
 
         Assert.NotNull(result);
         Assert.Empty(result);
@@ -52,7 +52,7 @@ public class DeviceServiceTest
     [Theory, AutoDomainData]
     public void GetAllDevices_Pagination_ShouldPaginate(DeviceService sut)
     {
-        var result = sut.GetAllDevices(brand: null, state: null, 1, 1);
+        var (result, _) = sut.GetAllDevices(brand: null, state: null, 1, 1);
 
         Assert.NotNull(result);
         Assert.Single(result);
