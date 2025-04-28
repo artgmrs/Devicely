@@ -23,7 +23,6 @@ namespace Devicely.Api.Controllers
         /// <param name="state">1- Available, 2- InUse, 3- Inactive</param>
         /// <param name="paginationDto">Pagination Parameters</param>
         /// <response code="200">Successfully Retrieved Data</response>
-        /// <response code="204">No Devices Found</response>
         /// <response code="400">Invalid Request Data</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet]
@@ -39,7 +38,7 @@ namespace Devicely.Api.Controllers
         /// </summary>
         /// <param name="id">Device ID (int)</param>
         /// <response code="200">Successfully retrieved the device</response>
-        /// <response code="204">Device not found</response>
+        /// <response code="404">Device not found</response>
         /// <response code="500">Internal Server Error</response>
         [HttpGet("{id:int}")]
         public async Task<ActionResult<DeviceDto>> GetDeviceById([Required] int id)
@@ -84,7 +83,7 @@ namespace Devicely.Api.Controllers
         /// <param name="id">Device ID (int)</param>
         /// <param name="editDeviceDto">Updated device data</param>
         /// <response code="200">Device successfully updated</response>
-        /// <response code="204">Device not found</response>
+        /// <response code="404">Device not found</response>
         /// <response code="400">Invalid request data</response>
         /// <response code="500">Internal Server Error</response>
         [HttpPut("{id:int}")]
