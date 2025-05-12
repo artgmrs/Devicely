@@ -15,7 +15,7 @@ public class DeviceServiceTest
         var (result, totalCount) = sut.GetAllDevices(brand: null, state: null, PaginationConstants.DefaultPageSize, PaginationConstants.DefaultPageNumber);
 
         Assert.NotNull(result);
-        Assert.All(result, device => Assert.True(!device.IsDeleted));
+        Assert.All(result, device => Assert.False(device.IsDeleted));
     }
 
     [Theory, AutoDomainData]
